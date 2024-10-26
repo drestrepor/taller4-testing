@@ -21,11 +21,18 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Deps
+      - name: Install Flask Deps
         run: |
           python -m venv venv
           source venv/bin/activate
           pip install -r requirements.txt
+
+      - name: Run Flask app
+        run: |
+          source venv/bin/activate
+          flask initdb
+          flask translate compile
+          nohup flask run > flask.log 2>&1 &
 
       - name: Checkout test repo
         run: git clone https://github.com/drestrepor/taller4-testing-playwright.git
